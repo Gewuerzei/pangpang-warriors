@@ -8,6 +8,13 @@ https://gewuerzei.github.io/pangpang-warriors/
 
 > 如遇 404：在此仓库 **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: main → /(root) → Save**。GitHub Pages 首次发布完成后才可访问。
 
+## v1.1 主界面更新
+
+- 进入网站先显示主菜单，不会自动开战。
+- 主页可以查看时代、关卡、金币，直接进入研究所或阅读玩法说明。
+- 点击「开始战斗」后才开始模拟；战斗中点左上角 ⌂ 可确认返回主菜单。
+- 已有本地存档沿用 v1.0 的存储键，不会因升级重置。
+
 ## 玩法
 
 - 🍙 饭团持续增长，消耗饭团派出肉盾胖、冲冲胖、远射胖。

@@ -11,10 +11,10 @@
   
   
   
+  <title>胖胖战士 · 胖胖军团出击！</title>
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" type="image/svg+xml" href="./icons/pangpang.svg" />
   <link rel="apple-touch-icon" href="./icons/pangpang.svg" />
-  <title>胖胖战士 · 胖胖军团出击！</title>
   <style>:root{--ink:#222640;--muted:#858ba1;--cream:#fffaf1;--accent:#fe995a;--accent-dark:#ea7540;--violet:#7d70b4;--line:#e6e5ed;--shadow:0 8px 25px rgba(31,35,71,.07)}
 *{box-sizing:border-box}html{background:#171e36;overscroll-behavior:none}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft Yahei",sans-serif;color:var(--ink);overscroll-behavior:none}button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}button:focus-visible{outline:3px solid #7584f8;outline-offset:3px}button:disabled{cursor:not-allowed}#app{min-height:100svh;max-width:810px;margin:auto;background:var(--cream);overflow:hidden;padding-bottom:max(8px,env(safe-area-inset-bottom));display:flex;flex-direction:column}
 .header{display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top)) 17px 10px;min-height:82px}.brand{display:flex;gap:10px;align-items:center}.brand-face{position:relative;background:#ffb86f;border:2.5px solid #383047;width:43px;height:43px;border-radius:50% 48% 42% 47%;box-shadow:inset -5px -5px #ffa162;transform:rotate(-8deg)}.brand-face::before,.brand-face::after{content:"";position:absolute;background:#f48466;width:10px;height:7px;border-radius:50%;top:24px;opacity:.65}.brand-face::before{left:1px}.brand-face::after{right:1px}.brand-face i{position:absolute;background:#383047;width:4px;height:8px;border-radius:99px;top:16px}.brand-face i:first-child{left:13px}.brand-face i:last-child{left:25px}h1{font-size:22px;letter-spacing:-.8px;margin:0;font-weight:900}h1 .tiny-stars{color:#fbb959;font-size:17px}.brand p{font-size:11px;color:#9996a8;font-weight:700;letter-spacing:1.5px;margin:1px 0}.top-actions{display:flex;gap:7px}.icon-btn{height:37px;width:37px;border-radius:13px;background:white;border:1.5px solid #edeaf0;box-shadow:0 2px 0 #e9e7ed;color:#383047;font-size:17px;font-weight:800}.icon-btn:active{transform:translateY(2px);box-shadow:none}
@@ -27,13 +27,42 @@
 @media(max-width:365px){.header{padding-left:11px;padding-right:11px}.brand h1{font-size:19px}.icon-btn{width:33px}.unit-cards{gap:6px}.unit-card{padding:7px 1px}.control-section{padding-left:10px;padding-right:10px}.base-meter-top{font-size:9px}.level-strip{gap:5px;padding-left:10px;padding-right:10px}.era-chip{padding:7px}}
 @media(max-height:700px){.header{min-height:62px;padding-top:calc(7px + env(safe-area-inset-top));padding-bottom:6px}.canvas-wrap{height:clamp(250px,39svh,350px)}.card-illustration{height:47px}.mini-body{transform:scale(.88)}.unit-card{padding-top:4px}.control-section{padding-top:10px}.food-bar{margin-bottom:9px}.bottom-controls{margin-top:8px}}
 @media(min-width:700px){#app{min-height:100svh;box-shadow:0 0 100px #070a1977}.canvas-wrap{height:430px}.control-section{padding:20px 35px}.header{padding-left:28px;padding-right:28px}.level-strip{padding-left:28px;padding-right:28px}.unit-cards{gap:17px}}
+
+/* 独立主菜单：与战场界面分离；未按开始之前不会启动模拟。 */
+[hidden]{display:none!important}
+#homeScreen{min-height:100svh;max-width:810px;margin:auto;position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(160deg,#fffcf4 0%,#fff0d7 52%,#ecf2d8 100%);padding:calc(22px + env(safe-area-inset-top)) 24px max(23px,env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:stretch;color:#42384b}
+.home-cloud{position:absolute;z-index:-1;background:#ffffff8a;border-radius:100px;height:35px;width:112px;top:16%;left:-31px;filter:blur(.2px);box-shadow:35px -13px 0 2px #ffffff8a}.home-cloud.two{top:26%;left:auto;right:-60px;transform:scale(.75)}
+.home-header{display:flex;justify-content:space-between;gap:12px;align-items:center}.home-kicker{display:inline-flex;border-radius:20px;background:#f8d6a7;padding:7px 12px;color:#986448;font-weight:900;font-size:11px;letter-spacing:1px}.home-version{font-size:11px;color:#b39d92;font-weight:800}
+.home-title{text-align:center;margin:23px 0 0;font-size:clamp(40px,10.8vw,64px);line-height:1.05;letter-spacing:1px;font-weight:1000;color:#5b3d48;text-shadow:0 5px 0 #ffedc3}.home-subtitle{text-align:center;color:#9e847d;font-size:13px;font-weight:800;margin:14px 0 9px;letter-spacing:1px}
+.home-stage{position:relative;height:clamp(190px,26svh,255px);margin:8px -12px 12px;display:flex;align-items:flex-end;justify-content:center;gap:3px;border-radius:34px 34px 80px 80px;background:radial-gradient(circle at 77% 24%,#fff5ae 0 26px,transparent 28px),linear-gradient(to bottom,transparent 0 55%,#bfe1a9 56% 71%,#82ba8a 72% 88%,#8cb887 89%);overflow:hidden}
+.home-stage::before{content:'✦';position:absolute;top:18px;left:15%;color:#f6bb75;font-size:25px}.home-stage::after{content:'';position:absolute;bottom:4px;left:-10%;width:120%;height:24px;background:#b5c17d;border-radius:50%}
+.home-character{position:relative;z-index:1;width:31%;max-width:115px;aspect-ratio:.89;border-radius:47% 47% 42% 42%;background:linear-gradient(155deg,#ffe2a7,#f5a574);border:5px solid #634c59;box-shadow:inset -14px -16px #ee906e,8px 12px 0 #5d785b27;transform:rotate(-6deg);margin-bottom:14px}
+.home-character::before,.home-character::after{content:'';position:absolute;top:39%;height:11px;width:7px;background:#403747;border-radius:100%}.home-character::before{left:36%}.home-character::after{left:60%}.home-character .tool{position:absolute;right:-26px;top:35%;font-size:clamp(27px,9vw,45px);filter:drop-shadow(2px 2px 0 #fff9);transform:rotate(18deg)}
+.home-character.yellow{background:linear-gradient(160deg,#ffedaf,#e7c66f);box-shadow:inset -13px -15px #d6af62,8px 10px 0 #5d785b27;transform:rotate(9deg) translateY(-12px);z-index:2}
+.home-character.teal{background:linear-gradient(155deg,#c8eee1,#87cdb7);box-shadow:inset -13px -15px #6ebba8,8px 10px 0 #5d785b27;transform:rotate(7deg)}
+.home-progress{display:flex;justify-content:space-around;align-items:center;gap:10px;border-radius:18px;background:#ffffffbc;box-shadow:0 5px 20px #6e643215;padding:14px 10px;margin:5px 0 18px;text-align:center}.home-progress div{display:grid;gap:4px;flex:1}.home-progress strong{font-size:15px;color:#6a4f54}.home-progress small{font-size:10px;font-weight:800;color:#a18a83}
+.home-start{width:100%;border:0;border-bottom:5px solid #e3844f;background:linear-gradient(135deg,#ffc082,#ff9b64);color:#6f3f2d;border-radius:20px;padding:17px 18px;font-weight:1000;font-size:22px;box-shadow:0 7px 22px #ef9c6b50}.home-start:active{transform:translateY(2px);border-bottom-width:3px}
+.home-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.home-secondary{border-radius:17px;background:#fffaf1e8;border:2px solid #f1e2cf;border-bottom:4px solid #e7d4bd;color:#695a60;font-size:14px;font-weight:900;padding:13px 8px}.home-footer{font-size:11px;text-align:center;color:#a29586;font-weight:700;margin-top:auto;padding-top:22px}
+@media(max-height:690px){.home-title{margin-top:12px;font-size:38px}.home-subtitle{margin:7px}.home-stage{height:165px;margin:4px -12px}.home-progress{margin:6px 0 10px;padding:9px}.home-start{padding:12px}.home-links{margin-top:7px}.home-secondary{padding:9px}.home-footer{padding-top:11px}}
+@media(min-width:700px){#homeScreen{padding-left:95px;padding-right:95px}.home-stage{height:285px}.home-title{margin-top:35px}}
 </style>
 </head>
 <body>
-<div id="app">
+<section id="homeScreen" aria-label="胖胖战士主菜单">
+  <span class="home-cloud" aria-hidden="true"></span><span class="home-cloud two" aria-hidden="true"></span>
+  <div class="home-header"><span class="home-kicker">🍙 胖胖王国 · 征兵处</span><span class="home-version">V1.1 · MENU</span></div>
+  <h2 class="home-title">胖胖战士</h2><p class="home-subtitle">集合！守护我们的饭团 🍡</p>
+  <div class="home-stage" aria-hidden="true"><div class="home-character orange"><span class="tool">🛡️</span></div><div class="home-character yellow"><span class="tool">🪓</span></div><div class="home-character teal"><span class="tool">🏹</span></div></div>
+  <div class="home-progress"><div><small>当前时代</small><strong id="homeEra">🌿 青草部落</strong></div><div><small>挑战进度</small><strong id="homeLevel">第 1 关</strong></div><div><small>金币储备</small><strong id="homeCoins">🪙 0</strong></div></div>
+  <button class="home-start" id="startBtn">⚔️ 开始战斗！</button>
+  <div class="home-links"><button class="home-secondary" id="homeShopBtn">🔧 胖胖研究所</button><button class="home-secondary" id="homeGuideBtn">📜 玩法说明</button></div>
+  <p class="home-footer">✦ 原创胖胖军团小游戏 · 永久进度本地保存 ✦</p>
+</section>
+<div id="app" hidden>
   <header class="header">
     <div class="brand"><div class="brand-face"><i></i><i></i></div><div><h1>胖胖战士 <span class="tiny-stars">✦</span></h1><p>胖胖军团出击！</p></div></div>
     <div class="top-actions">
+      <button class="icon-btn" id="backHomeBtn" aria-label="返回主菜单" title="返回主菜单">⌂</button>
       <button class="icon-btn" id="soundBtn" aria-label="开启声音" title="声音">🔇</button>
       <button class="icon-btn" id="howBtn" aria-label="玩法说明" title="玩法">❔</button>
       <button class="icon-btn" id="pauseBtn" aria-label="暂停游戏" title="暂停">Ⅱ</button>
@@ -71,7 +100,7 @@
     </div>
     <div class="bottom-controls"><button id="hornBtn" class="ability-btn"><span class="ability-icon">📯</span><span><strong>胖胖冲锋</strong><small id="hornStatus">全军加速 6 秒</small></span><span class="ability-ready" id="hornTimer">就绪</span></button><button id="shopBtn" class="workshop-btn">🔧 研究所 <span id="upgradeDot" class="unseen"></span></button></div>
   </main>
-  <footer class="footnote">原创离线小游戏 · 自动保存 · v1.0</footer>
+  <footer class="footnote">原创离线小游戏 · 自动保存 · v1.1</footer>
 </div>
 
 <div id="modalBackdrop" class="modal-backdrop" hidden>
@@ -85,7 +114,7 @@
   </section>
 </div>
 <div id="toast" aria-live="polite"></div>
-<script>/* 胖胖战士 v1.0 · Original game by Piccola for Pietro · No external assets or libraries. */
+<script>/* 胖胖战士 v1.1 · Original game by Piccola for Pietro · No external assets or libraries. */
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -125,7 +154,7 @@
   let save=readSave();
   let audioContext=null;
   let game=null;
-  let state='intro';
+  let state='home';
   let modalType=null;
   let modalCanClose=false;
   let noteUntil=0;
@@ -533,24 +562,58 @@
       b.textContent=action.label;b.addEventListener('click',action.onClick);$('modalActions').append(b);
     }
   }
-  function tutorial(){
-    state='intro';
-    modal({type:'intro',emoji:'🍙',title:'胖胖战士，集合！',text:'一群圆滚滚的小战士，为了世界上最好吃的饭团，决定展开一场热闹的基地争夺战。',
-      extra:'<div class="guide"><p>🍙 饭团会自动增加，派兵要消耗饭团。</p><p>🛡️ 肉盾保护队友，🪓 近战冲锋，🏹 远程输出。</p><p>📯 冲锋号角可以短暂加强全军。</p><p>🏆 推倒敌方基地，获得金币升级军团，逐步开启新时代。</p><p>💾 进度自动保存在这台设备的浏览器。</p></div>',
-      actions:[{label:'胖胖们！出发！',onClick:()=>{$('modalBackdrop').hidden=true;modalType=null;state='playing';$('pauseBtn').textContent='Ⅱ';hint('🍙 点下面的胖胖卡片派兵！',4);}}]});
+  function renderHome(){
+    const era=currentEra();
+    $('homeEra').textContent=era.symbol+' '+era.name;
+    $('homeLevel').textContent='第 '+(save.cleared+1)+' 关';
+    $('homeCoins').textContent='🪙 '+save.coins;
+  }
+  function enterHome(){
+    $('modalBackdrop').hidden=true;modalType=null;
+    state='home';
+    $('app').hidden=true;
+    $('homeScreen').hidden=false;
+    renderHome();
+    lastFrame=performance.now();
+  }
+  function startBattle(){
+    if(modalType){$('modalBackdrop').hidden=true;modalType=null;}
+    $('homeScreen').hidden=true;
+    $('app').hidden=false;
+    state='paused';
+    createBattle();
+    resize();
+    state='playing';
+    $('pauseBtn').textContent='Ⅱ';
+    updateHUD(true);
+    hint('🍙 点击下方卡片，派出胖胖战士！',4);
+    lastFrame=performance.now();
+  }
+  function confirmHome(){
+    if(state==='home'){return;}
+    const previous=state;
+    if(state==='playing')state='paused';
+    modal({type:'leave',emoji:'🏡',title:'返回胖胖王国？',
+      text:'这一场尚未结束的战斗将重新开始，已经获得的通关进度、金币和永久升级不会丢失。',
+      actions:[{label:'返回主菜单',onClick:enterHome},{label:'继续战斗',secondary:true,onClick:()=>{
+        $('modalBackdrop').hidden=true;modalType=null;
+        state=previous;
+        $('pauseBtn').textContent=state==='playing'?'Ⅱ':'▶';
+        updateHUD(true);
+      }}]});
   }
   function pause(){
-    if(state==='intro'||state==='ended')return;
+    if(state==='home'||state==='ended')return;
     if(modalType)return;
     if(state==='playing'){state='paused';$('pauseBtn').textContent='▶';hint('');}
     else{state='playing';$('pauseBtn').textContent='Ⅱ';}
     updateHUD();
   }
   function openGuide(){
-    const wasPlaying=state==='playing';if(wasPlaying)state='paused';
+    const previous=state;if(state==='playing')state='paused';
     modal({type:'guide',emoji:'📜',title:'胖胖作战手册',text:'一场轻松的小规模出兵对推战。方向不用控制，胖胖会自己寻找敌人。',
       extra:'<div class="guide"><p>🍙 派兵消耗饭团，饭团自动恢复，击败敌人还会掉落奖励。</p><p>🛡️ 肉盾血厚，🪓 冲锋攻击强，🏹 远射可以站在肉盾身后攻击。</p><p>📯 号角激活后 6 秒内，我方全军跑得更快、打得更痛。</p><p>👆 在战场左右滑动可暂时看别处；点「跟随」恢复自动镜头。</p><p>🪙 每场胜利获得金币，去研究所升级伤害、食物生产与营地。</p><p>📱 iPhone 安装：把网站部署到 HTTPS，再用 Safari 打开，点「分享」→「添加到主屏幕」。</p><p>🔐 完全本地运行，不上传账号或存档。</p></div>',
-      actions:[{label:'明白了！',onClick:()=>{ $('modalBackdrop').hidden=true;modalType=null;state=wasPlaying?'playing':(state==='ended'?'ended':'paused');$('pauseBtn').textContent=state==='playing'?'Ⅱ':'▶';updateHUD(true);}}],closable:false});
+      actions:[{label:'明白了！',onClick:()=>{ $('modalBackdrop').hidden=true;modalType=null;state=previous;$('pauseBtn').textContent=state==='playing'?'Ⅱ':'▶';updateHUD(true);}}],closable:false});
   }
   function shopContent(){
     return '<div class="shop-header">🪙 当前金币：'+save.coins+'</div><div class="upgrades-list">'+upgradeDefs.map(def=>{
@@ -564,7 +627,7 @@
       const price=upgradePrice(def);
       if(save.coins<price)return;
       save.coins-=price;save.upgrades[def.id]++;
-      persist();updateMeta();beep(650,.09,'triangle');
+      persist();updateMeta();renderHome();beep(650,.09,'triangle');
       $('modalExtra').innerHTML=shopContent();wireShop();
       if(game&&state==='paused'){
         game.income=12+save.upgrades.income*2.5;
@@ -574,12 +637,12 @@
     }));
   }
   function openShop(){
-    if(state==='intro'||modalType)return;
+    if(modalType)return;
     const wasPlaying=state==='playing';if(wasPlaying)state='paused';
     modal({type:'shop',emoji:'🔧',title:'胖胖研究所',text:'用战斗赚到的金币，把胖胖军团变得更强！',extra:shopContent(),
       actions:[{label:wasPlaying?'返回战场':'关闭研究所',onClick:()=>{
         $('modalBackdrop').hidden=true;modalType=null;if(wasPlaying)state='playing';
-        $('pauseBtn').textContent=state==='playing'?'Ⅱ':'▶';updateHUD(true);
+        $('pauseBtn').textContent=state==='playing'?'Ⅱ':'▶';renderHome();updateHUD(true);
       }}]});wireShop();
   }
   function showOutcome(won,reward,newEra){
@@ -589,8 +652,12 @@
       text:winText,extra:`<div class="medal">${won?'✨ 胜利奖赏':'🍀 再接再厉'}　+${reward} 🪙</div>`+shopContent(),
       actions:[{label:won?'下一关，出发！':'再战一场！',onClick:()=>{
         $('modalBackdrop').hidden=true;modalType=null;createBattle();state='playing';$('pauseBtn').textContent='Ⅱ';hint('🍙 新的一场！派出你的胖胖军团！',3);
-      }}]});wireShop();
+      }},{label:'返回主菜单',secondary:true,onClick:enterHome}]});wireShop();
   }
+  $('startBtn').addEventListener('click',startBattle);
+  $('homeShopBtn').addEventListener('click',openShop);
+  $('homeGuideBtn').addEventListener('click',openGuide);
+  $('backHomeBtn').addEventListener('click',confirmHome);
   $('unitCards').addEventListener('click',e=>{
     const btn=e.target.closest('[data-unit]');if(btn)deploy(+btn.dataset.unit);
   });
@@ -621,9 +688,9 @@
   if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
     window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
   }
-  createBattle();resize();tutorial();requestAnimationFrame(frame);
+  createBattle();resize();renderHome();updateHUD(true);requestAnimationFrame(frame);
   // Read-only minimal diagnostic hook for smoke tests. No hidden gameplay unlocks.
-  window.PangpangStatus=()=>({state,stage:game?.stage,playerUnits:game?.units.filter(u=>u.side===1).length,
+  window.PangpangStatus=()=>({state,menuVisible:!$('homeScreen').hidden,stage:game?.stage,playerUnits:game?.units.filter(u=>u.side===1).length,
     enemyUnits:game?.units.filter(u=>u.side===-1).length,food:Math.floor(game?.food||0),coins:save.coins,era:currentEra().name});
 })();
 </script>

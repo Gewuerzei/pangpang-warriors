@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "胖胖战士：胖胖军团出击！",
+  "short_name": "胖胖战士",
+  "description": "原创竖屏胖胖军团小游戏。攒饭团、出兵、推倒敌方基地。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fffaf1",
+  "theme_color": "#171e36",
+  "orientation": "portrait-primary",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "./icons/pangpang.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#171e36" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="胖胖战士" />
+  <meta name="description" content="原创圆滚滚出兵对推小游戏。收集饭团、组建胖胖军团、推倒对方堡垒！" />
+  
+  
+  
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="./icons/pangpang.svg" />
+  <link rel="apple-touch-icon" href="./icons/pangpang.svg" />
+  <title>胖胖战士 · 胖胖军团出击！</title>
+  <style>:root{--ink:#222640;--muted:#858ba1;--cream:#fffaf1;--accent:#fe995a;--accent-dark:#ea7540;--violet:#7d70b4;--line:#e6e5ed;--shadow:0 8px 25px rgba(31,35,71,.07)}
+*{box-sizing:border-box}html{background:#171e36;overscroll-behavior:none}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft Yahei",sans-serif;color:var(--ink);overscroll-behavior:none}button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}button:focus-visible{outline:3px solid #7584f8;outline-offset:3px}button:disabled{cursor:not-allowed}#app{min-height:100svh;max-width:810px;margin:auto;background:var(--cream);overflow:hidden;padding-bottom:max(8px,env(safe-area-inset-bottom));display:flex;flex-direction:column}
+.header{display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top)) 17px 10px;min-height:82px}.brand{display:flex;gap:10px;align-items:center}.brand-face{position:relative;background:#ffb86f;border:2.5px solid #383047;width:43px;height:43px;border-radius:50% 48% 42% 47%;box-shadow:inset -5px -5px #ffa162;transform:rotate(-8deg)}.brand-face::before,.brand-face::after{content:"";position:absolute;background:#f48466;width:10px;height:7px;border-radius:50%;top:24px;opacity:.65}.brand-face::before{left:1px}.brand-face::after{right:1px}.brand-face i{position:absolute;background:#383047;width:4px;height:8px;border-radius:99px;top:16px}.brand-face i:first-child{left:13px}.brand-face i:last-child{left:25px}h1{font-size:22px;letter-spacing:-.8px;margin:0;font-weight:900}h1 .tiny-stars{color:#fbb959;font-size:17px}.brand p{font-size:11px;color:#9996a8;font-weight:700;letter-spacing:1.5px;margin:1px 0}.top-actions{display:flex;gap:7px}.icon-btn{height:37px;width:37px;border-radius:13px;background:white;border:1.5px solid #edeaf0;box-shadow:0 2px 0 #e9e7ed;color:#383047;font-size:17px;font-weight:800}.icon-btn:active{transform:translateY(2px);box-shadow:none}
+.level-strip{display:flex;align-items:center;gap:10px;padding:2px 15px 12px;white-space:nowrap}.era-chip{font-size:11px;padding:8px 10px;border-radius:20px;background:#e9f5e7;color:#487650;font-weight:800}.level-text{font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;color:#6f718a}.level-text strong{font-size:15px;color:#30334f}.divider-dot{padding:0 2px}.coins-chip{margin-left:auto;border-radius:20px;background:#fff0ca;padding:6px 10px;font-size:12px;color:#87621a;font-weight:800}
+.battle-section{position:relative}.bases-hud{position:absolute;z-index:3;top:9px;left:13px;right:13px;display:flex;gap:10px;align-items:center;pointer-events:none}.base-meter{flex:1;background:#ffffffd9;backdrop-filter:blur(5px);padding:7px 9px;border-radius:11px;min-width:0;box-shadow:0 4px 14px #22243915}.base-meter-top{display:flex;justify-content:space-between;gap:4px;color:#51536b;font-size:10px;font-weight:800;margin-bottom:6px}.bar{height:8px;border-radius:10px;background:#e7e5ed;overflow:hidden}.fill{height:100%;width:100%;transition:width .18s linear}.fill.own{background:linear-gradient(90deg,#82c792,#4fa98a)}.fill.enemy{background:linear-gradient(90deg,#f1aa85,#e6777b)}.swords{font-size:20px;color:#fff;text-shadow:0 2px 8px #333}
+.canvas-wrap{height:clamp(290px,45svh,440px);position:relative;overflow:hidden;background:#bce7d6;touch-action:pan-y}#battleCanvas{display:block;width:100%;height:100%;touch-action:pan-y}.battle-top-note{position:absolute;z-index:2;top:65px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11px;font-weight:700;padding:7px 13px;background:#fff9d8e8;box-shadow:0 2px 10px #00000012;border-radius:30px;opacity:0;transition:opacity .35s;pointer-events:none;max-width:94%;overflow:hidden;text-overflow:ellipsis}.battle-top-note.visible{opacity:1}.field-controls{position:absolute;bottom:12px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none}.field-btn,.time-counter{pointer-events:auto;border:1px solid #ffffff9c;background:#ffffffbe;backdrop-filter:blur(4px);box-shadow:0 2px 8px #18223420;border-radius:20px;font-size:11px;font-weight:800;color:#4c5276;padding:7px 12px}.time-counter{border:none}.minimap{height:21px;padding:8px 29px 0;background:#d1e8c4}.map-line{height:4px;position:relative;background:#ffffff9e;border-radius:10px;border:1px solid #9dbf95}.home-flag,.enemy-flag{position:absolute;font-size:15px;top:-11px}.home-flag{left:-19px}.enemy-flag{right:-19px}.army-dot{position:absolute;border:2px solid #fff;top:-5px;height:13px;width:13px;transform:translateX(-50%);border-radius:50%;box-shadow:0 1px 4px #0003;transition:left .2s linear}.blue-dot{background:#5aa79e;left:8%}.red-dot{background:#e98872;left:92%}
+.control-section{background:var(--cream);border-radius:21px 21px 0 0;margin-top:-1px;padding:17px 17px 6px;position:relative;z-index:4;box-shadow:0 -5px 17px #385a3610}.food-heading{display:flex;justify-content:space-between;align-items:center;font-weight:800}.food-heading>div{display:flex;align-items:baseline;gap:8px}.food-title{font-size:14px}#foodCount{font-size:24px;letter-spacing:-.8px}.max-food{color:#aaa8b4;font-size:12px}.food-rate{color:#459884;font-size:12px;background:#e7f6eb;border-radius:13px;padding:5px 10px}.food-bar{width:100%;height:9px;background:#ede8e0;border-radius:10px;overflow:hidden;margin:8px 0 16px}.food-bar>div{height:100%;width:30%;background:linear-gradient(90deg,#ffce82,#fb905c);border-radius:10px;transition:width .13s linear}.section-line{display:flex;align-items:center;justify-content:space-between;margin:0 0 10px;font-weight:850;font-size:13px}.hint{font-weight:500;font-size:11px;color:#a5a2b1}.unit-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.unit-card{background:white;border:2px solid #efe9e8;border-bottom:4px solid #e9e2df;border-radius:16px;min-width:0;padding:10px 3px 9px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#37384b;transition:background .12s,border-color .12s,transform .09s}.unit-card:active:not(:disabled){transform:translateY(3px);border-bottom-width:2px}.unit-card:disabled{opacity:.5;filter:grayscale(.35)}.unit-card.affordable{border-color:#f4d7c5;border-bottom-color:#edbfaa}.unit-card.pop{animation:tap-pop .24s ease}.card-illustration{height:58px;display:grid;place-items:center}.mini-body{position:relative;width:48px;height:45px;border:2px solid #48394a;border-radius:50% 49% 45% 45%;box-shadow:inset -6px -6px #00000010}.mini-body.orange{background:#f7ae6f}.mini-body.yellow{background:#e6cc6e}.mini-body.teal{background:#92d0bf}.eye{position:absolute;top:13px;width:4px;height:8px;background:#302b37;border-radius:100px}.eye.left{left:15px}.eye.right{left:27px}.mini-tool{position:absolute;right:-13px;bottom:-7px;font-size:23px;filter:drop-shadow(0 1px #fff)}.unit-name{font-size:13px;font-weight:900}.unit-desc{color:#a09aa8;font-size:10px}.cost-pill{margin-top:5px;background:#fff1db;padding:4px 9px;border-radius:20px;font-size:12px;font-weight:850;color:#ae7446}.bottom-controls{display:flex;gap:9px;margin-top:13px}.ability-btn{flex:1;min-width:0;display:flex;align-items:center;gap:9px;background:#e8e5ff;border:1.5px solid #d9d5f4;border-bottom:3px solid #cac6ed;border-radius:14px;padding:10px 9px;text-align:left;color:#514f87}.ability-btn:disabled{opacity:.67}.ability-icon{font-size:23px}.ability-btn strong,.ability-btn small{display:block}.ability-btn strong{font-size:12px}.ability-btn small{font-size:10px;color:#8981b5;margin-top:2px}.ability-ready{margin-left:auto;font-weight:900;font-size:11px;padding:5px 7px;background:#ffffffbc;border-radius:11px;white-space:nowrap}.workshop-btn{background:#fff;border:1.5px solid #e9e5df;border-bottom:3px solid #e2ded9;border-radius:14px;padding:8px 11px;color:#67627a;font-size:12px;font-weight:800;white-space:nowrap}.unseen{display:none}.footnote{font-size:10px;color:#b1abba;text-align:center;margin-top:auto;padding:9px 0 3px}
+.modal-backdrop[hidden]{display:none}.modal-backdrop{position:fixed;z-index:20;inset:0;background:#1c2448b8;backdrop-filter:blur(6px);display:grid;place-items:center;padding:22px}.modal{position:relative;width:min(100%,430px);max-height:min(87svh,750px);overflow:auto;background:#fffdf7;border:3px solid #fff;border-radius:27px;padding:24px 20px 19px;text-align:center;box-shadow:0 18px 80px #14182c66}.modal-x{position:absolute;right:14px;top:12px;border:none;background:#f1f0ef;border-radius:50%;width:31px;height:31px;font-size:24px;line-height:1;color:#5a5361}.modal-emoji{font-size:51px;line-height:1.25}.modal h2{font-size:26px;letter-spacing:-.5px;margin:9px 0 7px}.modal-description{color:#827e8e;font-size:13px;line-height:1.7;margin:4px auto 17px;max-width:340px}.modal-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:17px}.primary-btn,.secondary-btn{border-radius:15px;padding:12px 19px;font-size:15px;font-weight:900;border:0;min-width:125px}.primary-btn{background:#ffad71;color:#643b2e;border-bottom:4px solid #ed8e58}.secondary-btn{background:#edeaf0;color:#666076;border-bottom:4px solid #dcd9e0}.upgrades-list{display:grid;gap:8px;text-align:left;margin:12px 0}.upgrade-row{display:flex;gap:9px;align-items:center;background:#f5f3ef;border-radius:14px;padding:9px}.upgrade-icon{font-size:25px;width:37px;text-align:center}.upgrade-text{flex:1}.upgrade-text strong{display:block;font-size:12px}.upgrade-text small{font-size:10px;color:#96919b}.upgrade-buy{border:none;border-bottom:3px solid #dfb875;background:#ffe3ac;color:#7b5631;padding:8px 9px;border-radius:11px;font-weight:900;font-size:11px;white-space:nowrap}.upgrade-buy:disabled{opacity:.45;filter:grayscale(1)}.guide{font-size:12px;color:#666275;text-align:left;line-height:1.7;background:#f8f5f0;padding:11px 13px;border-radius:14px}.guide p{margin:4px 0}.medal{font-weight:900;color:#bb8659;background:#fff1d9;padding:12px;border-radius:13px;margin:11px 0}.shop-header{font-size:13px;font-weight:900;color:#8d6543;padding:7px;background:#fff0d4;border-radius:10px}#toast{position:fixed;pointer-events:none;z-index:30;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(30px);padding:10px 15px;border-radius:25px;background:#37354e;color:#fff;font-size:12px;font-weight:750;box-shadow:0 6px 25px #0003;opacity:0;transition:opacity .2s,transform .2s;white-space:nowrap;max-width:85%;text-overflow:ellipsis;overflow:hidden}#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@keyframes tap-pop{50%{transform:scale(.94)}}
+@media(max-width:365px){.header{padding-left:11px;padding-right:11px}.brand h1{font-size:19px}.icon-btn{width:33px}.unit-cards{gap:6px}.unit-card{padding:7px 1px}.control-section{padding-left:10px;padding-right:10px}.base-meter-top{font-size:9px}.level-strip{gap:5px;padding-left:10px;padding-right:10px}.era-chip{padding:7px}}
+@media(max-height:700px){.header{min-height:62px;padding-top:calc(7px + env(safe-area-inset-top));padding-bottom:6px}.canvas-wrap{height:clamp(250px,39svh,350px)}.card-illustration{height:47px}.mini-body{transform:scale(.88)}.unit-card{padding-top:4px}.control-section{padding-top:10px}.food-bar{margin-bottom:9px}.bottom-controls{margin-top:8px}}
+@media(min-width:700px){#app{min-height:100svh;box-shadow:0 0 100px #070a1977}.canvas-wrap{height:430px}.control-section{padding:20px 35px}.header{padding-left:28px;padding-right:28px}.level-strip{padding-left:28px;padding-right:28px}.unit-cards{gap:17px}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="header">
+    <div class="brand"><div class="brand-face"><i></i><i></i></div><div><h1>胖胖战士 <span class="tiny-stars">✦</span></h1><p>胖胖军团出击！</p></div></div>
+    <div class="top-actions">
+      <button class="icon-btn" id="soundBtn" aria-label="开启声音" title="声音">🔇</button>
+      <button class="icon-btn" id="howBtn" aria-label="玩法说明" title="玩法">❔</button>
+      <button class="icon-btn" id="pauseBtn" aria-label="暂停游戏" title="暂停">Ⅱ</button>
+    </div>
+  </header>
+
+  <div class="level-strip">
+    <div class="era-chip"><span id="eraIcon">🌿</span><span id="eraName">青草部落</span></div>
+    <div class="level-text">第 <strong id="stageNum">1</strong> 关 <span class="divider-dot">·</span> <span id="stageLabel">饭团争夺战</span></div>
+    <div class="coins-chip" aria-label="永久金币">🪙 <b id="coinsCount">0</b></div>
+  </div>
+
+  <section class="battle-section" aria-label="战场">
+    <div class="bases-hud">
+      <div class="base-meter player-meter"><div class="base-meter-top"><span>🏠 胖胖营地</span><span id="ownHpText">100%</span></div><div class="bar"><div id="ownHpFill" class="fill own"></div></div></div>
+      <div class="swords">⚔</div>
+      <div class="base-meter enemy-meter"><div class="base-meter-top"><span>坏坏营地 🏴</span><span id="enemyHpText">100%</span></div><div class="bar"><div id="enemyHpFill" class="fill enemy"></div></div></div>
+    </div>
+    <div class="canvas-wrap" id="canvasWrap">
+      <canvas id="battleCanvas" aria-label="两支圆滚滚的军团正在战斗"></canvas>
+      <div class="battle-top-note" id="battleNote" aria-live="polite">点击下方卡片，派出胖胖战士！</div>
+      <div class="field-controls"><button class="field-btn" id="cameraBtn" aria-label="跟随战线">◎ 跟随</button><span class="time-counter" id="timeText">00:00</span></div>
+    </div>
+    <div class="minimap" aria-label="双方战线进度"><div class="map-line"><span class="home-flag">🏠</span><div id="mapBlue" class="army-dot blue-dot"></div><div id="mapRed" class="army-dot red-dot"></div><span class="enemy-flag">🏴</span></div></div>
+  </section>
+
+  <main class="control-section">
+    <div class="food-heading"><div><span class="food-title">🍙 饭团</span><strong id="foodCount">120</strong><span class="max-food">/ <span id="maxFood">350</span></span></div><div class="food-rate" id="foodRate">+12 / 秒</div></div>
+    <div class="food-bar"><div id="foodFill"></div></div>
+    <div class="section-line"><span>选择出战的胖胖</span><span class="hint">点击即可派兵</span></div>
+    <div class="unit-cards" id="unitCards">
+      <button class="unit-card" data-unit="0"><div class="card-illustration"><div class="mini-body orange"><b class="eye left"></b><b class="eye right"></b><span class="mini-tool">🛡️</span></div></div><span class="unit-name">肉盾胖</span><span class="unit-desc">挨揍高手</span><span class="cost-pill">🍙 <b>45</b></span></button>
+      <button class="unit-card" data-unit="1"><div class="card-illustration"><div class="mini-body yellow"><b class="eye left"></b><b class="eye right"></b><span class="mini-tool">🪓</span></div></div><span class="unit-name">冲冲胖</span><span class="unit-desc">近战猛将</span><span class="cost-pill">🍙 <b>75</b></span></button>
+      <button class="unit-card" data-unit="2"><div class="card-illustration"><div class="mini-body teal"><b class="eye left"></b><b class="eye right"></b><span class="mini-tool">🏹</span></div></div><span class="unit-name">远射胖</span><span class="unit-desc">后排支援</span><span class="cost-pill">🍙 <b>115</b></span></button>
+    </div>
+    <div class="bottom-controls"><button id="hornBtn" class="ability-btn"><span class="ability-icon">📯</span><span><strong>胖胖冲锋</strong><small id="hornStatus">全军加速 6 秒</small></span><span class="ability-ready" id="hornTimer">就绪</span></button><button id="shopBtn" class="workshop-btn">🔧 研究所 <span id="upgradeDot" class="unseen"></span></button></div>
+  </main>
+  <footer class="footnote">原创离线小游戏 · 自动保存 · v1.0</footer>
+</div>
+
+<div id="modalBackdrop" class="modal-backdrop" hidden>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button id="modalClose" class="modal-x" aria-label="关闭">×</button>
+    <div id="modalEmoji" class="modal-emoji">🍙</div>
+    <h2 id="modalTitle">胖胖战士</h2>
+    <p id="modalText" class="modal-description"></p>
+    <div id="modalExtra"></div>
+    <div class="modal-actions" id="modalActions"></div>
+  </section>
+</div>
+<div id="toast" aria-live="polite"></div>
+<script>/* 胖胖战士 v1.0 · Original game by Piccola for Pietro · No external assets or libraries. */
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const canvas = $('battleCanvas');
+  const ctx = canvas.getContext('2d', {alpha:false});
+  const WORLD = 980;
+  const SAVE_KEY = 'pangpang-warriors-save-v1';
+  const eras = [
+    {name:'青草部落',symbol:'🌿', sky:['#a6dddc','#eaf8dc'],hill:['#b4d79a','#8ab981'],ground:'#c9dd96', dirt:'#ab875e',names:['肉盾胖','冲冲胖','远射胖'],icons:['🛡️','🪓','🏹'],hint:'饭团争夺战'},
+    {name:'小胖王朝',symbol:'🏯', sky:['#b6d9f2','#fff0c6'],hill:['#b3c8a1','#83a18a'],ground:'#c2d69a',dirt:'#c39a6d',names:['盾牌胖','长枪胖','弓箭胖'],icons:['🛡️','⚔️','🏹'],hint:'小胖争霸战'},
+    {name:'蒸汽小镇',symbol:'⚙️', sky:['#c7c7dc','#f5dfc5'],hill:['#bcbab2','#919ba0'],ground:'#c2c1a2',dirt:'#8e877e',names:['铁甲胖','扳手胖','火枪胖'],icons:['🦾','🔧','🔫'],hint:'锅炉大作战'},
+    {name:'星际胖胖',symbol:'🪐',sky:['#45446f','#9a76af'],hill:['#67628d','#474d78'],ground:'#9ca2ac',dirt:'#73778f',names:['护盾胖','闪电胖','光炮胖'],icons:['🛸','⚡','🔮'],hint:'银河饭团战'}
+  ];
+  const unitTypes = [
+    {cost:45,hp:165,dmg:14,speed:38,range:43,delay:1.15,armor:.18,bounty:17},
+    {cost:75,hp:116,dmg:28,speed:43,range:65,delay:1.05,armor:.03,bounty:22},
+    {cost:115,hp:82,dmg:25,speed:33,range:205,delay:1.8,armor:0,bounty:28}
+  ];
+  const upgradeDefs = [
+    {id:'attack',icon:'⚔️',title:'胖胖训练',desc:'我方单位伤害 +12%',start:45,step:37},
+    {id:'income',icon:'🍙',title:'豪华饭桶',desc:'每秒额外获得 2.5 饭团',start:45,step:45},
+    {id:'fort',icon:'🏠',title:'营地加固',desc:'基地最大生命 +160',start:35,step:30}
+  ];
+  const defaultSave = () => ({cleared:0,coins:0,upgrades:{attack:0,income:0,fort:0},sound:false});
+  function readSave(){
+    try{
+      const raw=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');
+      if(!raw||typeof raw!=='object')return defaultSave();
+      const s=defaultSave();
+      s.cleared=Math.min(999,Math.max(0,Math.floor(Number(raw.cleared)||0)));
+      s.coins=Math.min(999999,Math.max(0,Math.floor(Number(raw.coins)||0)));
+      for(const k of Object.keys(s.upgrades))s.upgrades[k]=Math.min(200,Math.max(0,Math.floor(Number(raw.upgrades?.[k])||0)));
+      s.sound=!!raw.sound;
+      return s;
+    }catch{return defaultSave();}
+  }
+  let save=readSave();
+  let audioContext=null;
+  let game=null;
+  let state='intro';
+  let modalType=null;
+  let modalCanClose=false;
+  let noteUntil=0;
+  let toastTimeout=0;
+  let lastFrame=0;
+  let viewW=390,viewH=340,dpr=1;
+  let dragging=false,downX=0,lastPointerX=0;
+  let userCameraUntil=0;
+  let camera=0;
+  let frameSeq=0;
+  let motion=0;
+
+  function persist(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(save));}catch{/* private-mode fallback */}}
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+  function eraIndex(){return Math.min(eras.length-1,Math.floor(save.cleared/3));}
+  const currentEra=()=>eras[eraIndex()];
+  function upgradePrice(def){return Math.round(def.start+def.step*save.upgrades[def.id]*(1+save.upgrades[def.id]*.22));}
+  function hint(text,seconds=2.5){$('battleNote').textContent=text;$('battleNote').classList.add('visible');noteUntil=performance.now()+seconds*1000;}
+  function toast(text){const t=$('toast');t.textContent=text;t.classList.add('show');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>t.classList.remove('show'),1500);}
+  function beep(freq=520,duration=.075,kind='sine',volume=.032){
+    if(!save.sound)return;
+    try{
+      const AC=window.AudioContext||window.webkitAudioContext;
+      if(!AC)return;
+      if(!audioContext)audioContext=new AC();
+      if(audioContext.state==='suspended')audioContext.resume();
+      const o=audioContext.createOscillator(),g=audioContext.createGain();
+      o.type=kind;o.frequency.value=freq;g.gain.setValueAtTime(volume,audioContext.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audioContext.currentTime+duration);
+      o.connect(g);g.connect(audioContext.destination);o.start();o.stop(audioContext.currentTime+duration);
+    }catch{/* sounds optional */}
+  }
+  function createBattle(){
+    const stage=save.cleared+1;
+    const baseMax=1100+save.upgrades.fort*160;
+    game={stage,era:eraIndex(),t:0,food:120,maxFood:350+save.upgrades.income*45,
+      income:12+save.upgrades.income*2.5,
+      ownHp:baseMax,ownMax:baseMax,enemyMax:1050+stage*120,enemyHp:1050+stage*120,
+      units:[],shots:[],particles:[],nextEnemy:5,spawnNum:0,hornReadyAt:0,hornUntil:0, ownTowerAt:0,enemyTowerAt:0,
+      nextId:0,won:false,finished:false};
+    camera=0;userCameraUntil=0;updateMeta();updateHUD(true);
+  }
+  function updateMeta(){
+    const era=currentEra();
+    $('eraIcon').textContent=era.symbol;
+    $('eraName').textContent=era.name;
+    $('stageNum').textContent=save.cleared+1;
+    $('stageLabel').textContent=era.hint;
+    $('coinsCount').textContent=save.coins;
+    const cards=[...document.querySelectorAll('.unit-card')];
+    cards.forEach((card,i)=>{
+      card.querySelector('.unit-name').textContent=era.names[i];
+      card.querySelector('.mini-tool').textContent=era.icons[i];
+      card.querySelector('.cost-pill b').textContent=unitTypes[i].cost;
+    });
+    $('soundBtn').textContent=save.sound?'🔊':'🔇';
+    $('soundBtn').setAttribute('aria-label',save.sound?'关闭声音':'开启声音');
+  }
+  function spawnUnit(side,type){
+    if(!game||game.finished)return null;
+    const src=unitTypes[type],levelFactor=side===1?1:(.91+game.stage*.065);
+    const hp=src.hp*levelFactor;
+    const u={id:++game.nextId,side,type,x:side===1?130:WORLD-130,yOffset:(game.nextId%3-1)*5,hp,maxHp:hp,
+      dmg:src.dmg*levelFactor*(side===1?1+save.upgrades.attack*.12:1),speed:src.speed,
+      range:src.range,delay:src.delay,cooldown:Math.random()*.3,armor:src.armor,
+      hitFlash:0,attackFlash:0,walkPhase:Math.random()*7};
+    game.units.push(u);
+    puff(u.x,worldGround()-8,side===1?'#fff0d3':'#ddd4ec',4);
+    return u;
+  }
+  function deploy(type){
+    if(state!=='playing'||!game||game.finished)return;
+    const src=unitTypes[type];
+    if(game.food<src.cost){toast('🍙 饭团不够，再攒一会！');beep(240,.13);return;}
+    if(game.units.filter(x=>x.side===1&&x.hp>0).length>=24){toast('前线太挤了！');return;}
+    game.food-=src.cost;
+    spawnUnit(1,type);
+    const card=document.querySelector(`.unit-card[data-unit="${type}"]`);
+    card.classList.remove('pop');void card.offsetWidth;card.classList.add('pop');
+    beep(480+type*95,.065,'triangle');
+    if(game.t<15)hint(['肉盾胖正在保护大家！','冲冲胖冲呀！','远射胖可以躲在后面输出！'][type]);
+    updateHUD();
+  }
+  function horn(){
+    if(state!=='playing'||game.t<game.hornReadyAt)return;
+    game.hornUntil=game.t+6;game.hornReadyAt=game.t+29;
+    hint('📯 胖胖冲锋！6 秒内速度和伤害提升！');
+    beep(430,.22,'sawtooth',.022);
+    for(let i=0;i<18;i++){
+      const x=170+Math.random()*280;
+      game.particles.push({x,y:worldGround()-100-Math.random()*100,vx:(Math.random()-.5)*50,vy:-25-Math.random()*35,life:1,full:1,color:'#ffda84',radius:2+Math.random()*4});
+    }
+  }
+  function worldGround(){return viewH*.79;}
+  function puff(x,y,color,n=5){
+    if(!game)return;
+    for(let i=0;i<n;i++)game.particles.push({x,y,vx:(Math.random()-.5)*95,vy:-20-Math.random()*45,life:.5+Math.random()*.35,full:.8,color,radius:2+Math.random()*4});
+  }
+  function strike(from,target){
+    const boosted=from.side===1&&game.t<game.hornUntil;
+    const damage=from.dmg*(boosted?1.45:1)*(target?.armor?1-target.armor:1);
+    if(from.type===2){
+      const y=worldGround()-42+from.yOffset;
+      const tx=target?.base?target.x:target.x;
+      game.shots.push({x:from.x+from.side*15,y,tx,targetId:target?.id||0,targetBase:!!target?.base,side:from.side,damage,speed:460,life:1.8,type:from.type});
+    } else {applyDamage(target,damage,from.side);puff(target.x,worldGround()-33,'#fff4d0',4);}
+    from.attackFlash=.2;
+    if(from.side===1)beep(from.type===0?190:265,.035,'triangle',.008);
+  }
+  function applyDamage(target,amount,sourceSide){
+    if(target.base){
+      if(target.side===1)game.ownHp=Math.max(0,game.ownHp-amount);
+      else game.enemyHp=Math.max(0,game.enemyHp-amount);
+      if((target.side===1?game.ownHp:game.enemyHp)<=0)finish(sourceSide===1);
+      return;
+    }
+    if(target.hp<=0)return;
+    target.hp=Math.max(0,target.hp-amount);target.hitFlash=.18;
+    if(target.hp===0){
+      puff(target.x,worldGround()-33,target.side===1?'#ffd6aa':'#b7a8d8',12);
+      if(target.side===-1){game.food=clamp(game.food+unitTypes[target.type].bounty,0,game.maxFood);}
+    }
+  }
+  function finish(won){
+    if(game.finished)return;
+    game.finished=true;game.won=won;state='ended';
+    let reward=won?85+Math.floor(game.stage*13):14;
+    save.coins+=reward;
+    const oldEra=eraIndex();
+    if(won)save.cleared++;
+    const newEra=eraIndex();
+    persist();updateMeta();updateHUD(true);
+    beep(won?660:280,.15,'triangle',.03);
+    setTimeout(()=>{
+      if(state!=='ended')return;
+      showOutcome(won,reward,newEra>oldEra);
+    },250);
+  }
+  function nearestEnemy(u){
+    let best=null,d=Infinity;
+    for(const v of game.units){
+      if(v.side===u.side||v.hp<=0)continue;
+      const dx=(v.x-u.x)*u.side;
+      if(dx < -20) continue;
+      if(dx<d){best=v;d=dx;}
+    }
+    return {target:best,distance:d};
+  }
+  function update(dt){
+    if(state!=='playing'||!game||game.finished)return;
+    game.t+=dt;
+    game.food=clamp(game.food+game.income*dt,0,game.maxFood);
+    if(game.t>game.nextEnemy){
+      const pick=(Math.random()<.50)?0:Math.random()<.67?1:2;
+      spawnUnit(-1,pick);
+      game.spawnNum++;
+      if(game.stage>=3&&game.spawnNum%5===0)spawnUnit(-1,0);
+      game.nextEnemy=game.t+Math.max(2.6,5.1-game.stage*.12-game.t*.004)+Math.random()*1.35;
+    }
+    const ground=worldGround();
+    for(const u of game.units){
+      if(u.hp<=0)continue;
+      u.cooldown-=dt;u.attackFlash=Math.max(0,u.attackFlash-dt);u.hitFlash=Math.max(0,u.hitFlash-dt);
+      const info=nearestEnemy(u);
+      const targetBase=u.side===1?{base:true,side:-1,x:WORLD-82}:{base:true,side:1,x:82};
+      let target=info.target;
+      let distance=info.distance;
+      const baseDistance=(targetBase.x-u.x)*u.side;
+      if(!target||baseDistance<distance){target=targetBase;distance=baseDistance;}
+      if(distance<=u.range){
+        if(u.cooldown<=0){strike(u,target);u.cooldown=u.delay;}
+      }else{
+        const boosted=u.side===1&&game.t<game.hornUntil;
+        let speed=u.speed*(boosted?1.55:1)*dt;
+        const friends=game.units.filter(v=>v.side===u.side&&v.hp>0&&v.id!==u.id);
+        const ahead=friends.some(v=>(v.x-u.x)*u.side>0&&(v.x-u.x)*u.side<34);
+        if(ahead)speed*=.27;
+        u.x=clamp(u.x+u.side*speed,112,WORLD-112);
+        u.walkPhase+=dt*8;
+      }
+    }
+    game.units=game.units.filter(u=>u.hp>0);
+    // Base defense is intentionally weak: it prevents early rushes without deciding the battle.
+    for(const side of [1,-1]){
+      const nearest=game.units.filter(u=>u.side!==side&&u.hp>0&&Math.abs(u.x-(side===1?85:WORLD-85))<170)
+        .sort((a,b)=>Math.abs(a.x-(side===1?85:WORLD-85))-Math.abs(b.x-(side===1?85:WORLD-85)))[0];
+      const key=side===1?'ownTowerAt':'enemyTowerAt';
+      if(nearest&&game.t>=game[key]){
+        game[key]=game.t+4.4;
+        const x=side===1?88:WORLD-88;
+        game.shots.push({x,y:ground-126,tx:nearest.x,targetId:nearest.id,targetBase:false,side,damage:28,speed:400,life:2,type:3});
+      }
+    }
+    for(const shot of game.shots){
+      const target=shot.targetBase?{base:true,side:-shot.side,x:shot.side===1?WORLD-82:82}:
+        game.units.find(u=>u.id===shot.targetId&&u.hp>0);
+      if(!target){shot.life=0;continue;}
+      const diff=target.x-shot.x;
+      const move=shot.speed*dt;
+      if(Math.abs(diff)<=move+12){
+        shot.x=target.x;applyDamage(target,shot.damage,shot.side);
+        shot.life=0;
+        puff(shot.x,ground-34,'#ffe1a0',5);
+      }else shot.x+=Math.sign(diff)*move;
+      shot.life-=dt;
+    }
+    game.shots=game.shots.filter(s=>s.life>0);
+    for(const p of game.particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=75*dt;p.life-=dt;}
+    game.particles=game.particles.filter(p=>p.life>0).slice(-180);
+    if(game.t>380)finish(game.enemyHp<game.ownHp); // avoid endless stalemates
+    updateHUD();
+  }
+  function updateHUD(force=false){
+    if(!game)return;
+    $('foodCount').textContent=Math.floor(game.food);
+    $('maxFood').textContent=game.maxFood;
+    $('foodFill').style.width=(100*game.food/game.maxFood)+'%';
+    $('foodRate').textContent='+'+game.income.toFixed(game.income%1?1:0)+' / 秒';
+    $('ownHpText').textContent=Math.ceil(100*game.ownHp/game.ownMax)+'%';
+    $('enemyHpText').textContent=Math.ceil(100*game.enemyHp/game.enemyMax)+'%';
+    $('ownHpFill').style.width=(100*game.ownHp/game.ownMax)+'%';
+    $('enemyHpFill').style.width=(100*game.enemyHp/game.enemyMax)+'%';
+    const sec=Math.floor(game.t),mm=String(Math.floor(sec/60)).padStart(2,'0'),ss=String(sec%60).padStart(2,'0');
+    $('timeText').textContent=mm+':'+ss;
+    const ready=Math.max(0,game.hornReadyAt-game.t);
+    $('hornTimer').textContent=ready?Math.ceil(ready)+'秒':'就绪';
+    $('hornStatus').textContent=game.t<game.hornUntil?'冲锋中！':'全军加速 6 秒';
+    $('hornBtn').disabled=ready>0||state!=='playing';
+    for(const card of document.querySelectorAll('.unit-card')){
+      const index=+card.dataset.unit;
+      const afford=game.food>=unitTypes[index].cost;
+      card.disabled=state!=='playing';
+      card.classList.toggle('affordable',afford&&state==='playing');
+      card.style.opacity=state==='playing'&&!afford?'.6':'1';
+    }
+    if(force||frameSeq%7===0){
+      const own=game.units.filter(x=>x.side===1).map(u=>u.x);
+      const enemy=game.units.filter(x=>x.side===-1).map(u=>u.x);
+      $('mapBlue').style.left=clamp(((own.length?Math.max(...own):130)/WORLD)*100,4,96)+'%';
+      $('mapRed').style.left=clamp(((enemy.length?Math.min(...enemy):WORLD-130)/WORLD)*100,4,96)+'%';
+    }
+  }
+  function resize(){
+    const box=canvas.getBoundingClientRect();
+    viewW=Math.max(100,box.width);viewH=Math.max(180,box.height);dpr=Math.min(2,window.devicePixelRatio||1);
+    canvas.width=Math.round(viewW*dpr);canvas.height=Math.round(viewH*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    camera=clamp(camera,0,Math.max(0,WORLD-viewW));
+  }
+  function roundRect(x,y,w,h,r,fill,stroke,lineWidth=1){
+    if(w<=0||h<=0)return;
+    ctx.beginPath();ctx.roundRect(x,y,w,h,r);
+    if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lineWidth;ctx.stroke();}
+  }
+  function ellipse(x,y,rx,ry,color){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();}
+  function line(x1,y1,x2,y2,color,width){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineCap='round';ctx.stroke();}
+  function drawBackground(){
+    const era=eras[game?game.era:eraIndex()];
+    const grad=ctx.createLinearGradient(0,0,0,viewH);grad.addColorStop(0,era.sky[0]);grad.addColorStop(1,era.sky[1]);ctx.fillStyle=grad;ctx.fillRect(0,0,viewW,viewH);
+    const gx=worldGround();
+    ellipse(viewW*.77-camera*.055,83,38,38,game?.era===3?'#d5d4ec':'#ffe7aa');
+    if(game?.era===3){for(let i=0;i<30;i++){const x=((i*131+17-camera*.09)% (viewW+70)+viewW+70)%(viewW+70);ellipse(x,30+(i*37)%180,1.3,1.3,'#ffffffbb');}}
+    else{
+      for(let i=0;i<7;i++){
+        const x=((i*194+45-camera*.19)%(viewW+250)+(viewW+250))%(viewW+250)-80;
+        const y=60+i%3*45;
+        ellipse(x,y,30,12,'#ffffff99');ellipse(x+17,y-7,23,14,'#ffffff99');ellipse(x-17,y-3,19,11,'#ffffff99');
+      }
+    }
+    ctx.fillStyle=era.hill[0];ctx.beginPath();ctx.moveTo(0,gx);for(let x=0;x<=viewW+35;x+=24){const w=x+camera*.22;ctx.lineTo(x,gx-82-26*Math.sin(w/78)-12*Math.sin(w/43));}ctx.lineTo(viewW,gx);ctx.fill();
+    ctx.fillStyle=era.hill[1];ctx.beginPath();ctx.moveTo(0,gx);for(let x=0;x<=viewW+35;x+=21){const w=x+camera*.48;ctx.lineTo(x,gx-29-20*Math.sin(w/94+1)-9*Math.sin(w/39));}ctx.lineTo(viewW,gx);ctx.fill();
+    ctx.fillStyle=era.ground;ctx.fillRect(0,gx,viewW,viewH-gx);
+    ctx.fillStyle=era.dirt;ctx.fillRect(0,gx+9,viewW,6);
+    ctx.fillStyle='#ffffff4e';ctx.fillRect(0,gx+16,viewW,3);
+    for(let j=0;j<26;j++){
+      const x=j*74-camera;
+      if(x<-20||x>viewW+20)continue;
+      const y=gx+30+(j*13)%38;
+      line(x-5,y+1,x,y-4,'#93aa74',1.5);line(x,y-4,x+4,y-1,'#93aa74',1.5);
+    }
+    for(let j=0;j<10;j++){
+      const x=j*139+90-camera;
+      if(x<-40||x>viewW+40)continue;
+      const y=gx-3;
+      if(game?.era===2){roundRect(x,y-94,27,91,4,'#8a8b8e','#636c75',2);ellipse(x+13,y-100,15,7,'#686e78');}
+      else if(game?.era===3){roundRect(x,y-63,5,63,2,'#7d7a9e');ellipse(x+3,y-74,18,15,'#e4bbdc');}
+      else{
+        line(x,y,x,y-43,'#816f62',8);ellipse(x-10,y-51,26,21,era.hill[1]);ellipse(x+12,y-55,23,18,era.hill[0]);
+      }
+    }
+  }
+  function drawBase(x,side){
+    const ground=worldGround();ctx.save();ctx.translate(x-camera,0);
+    if(side<0)ctx.scale(-1,1);
+    const isFriend=side===1;
+    ellipse(0,ground+6,71,12,'#2823332c');
+    roundRect(-43,ground-97,87,101,12,isFriend?'#f4d7ad':'#9d8fac','#4d4558',3);
+    roundRect(-27,ground-52,42,53,6,isFriend?'#947763':'#5c536f','#514657',2);
+    for(let i=0;i<3;i++)roundRect(-37+i*31,ground-111,27,24,5,isFriend?'#ffdea7':'#88749e','#55465e',2.5);
+    line(-48,ground-109,0,ground-152,isFriend?'#8c6157':'#615470',5);
+    line(0,ground-152,47,ground-109,isFriend?'#8c6157':'#615470',5);
+    ctx.beginPath();ctx.moveTo(-49,ground-109);ctx.lineTo(0,ground-153);ctx.lineTo(49,ground-109);ctx.closePath();ctx.fillStyle=isFriend?'#e7976d':'#6b597f';ctx.fill();ctx.strokeStyle='#54435a';ctx.lineWidth=3;ctx.stroke();
+    line(13,ground-143,13,ground-176,'#54475a',3);
+    ctx.beginPath();ctx.moveTo(13,ground-175);ctx.lineTo(53,ground-165);ctx.lineTo(13,ground-155);ctx.closePath();ctx.fillStyle=isFriend?'#8cceaa':'#e9a0a3';ctx.fill();
+    ctx.font='19px sans-serif';ctx.textAlign='center';ctx.fillText(isFriend?'🍙':'💢',0,ground-68);ctx.restore();
+  }
+  function drawUnit(u){
+    const sx=u.x-camera,ground=worldGround()+u.yOffset;
+    if(sx<-80||sx>viewW+80)return;
+    const bounce=Math.sin(u.walkPhase*1.5)*1.4;
+    ctx.save();ctx.translate(sx,ground-33+bounce);
+    if(u.side<0)ctx.scale(-1,1);
+    const colors=u.side===1?['#f7b17b','#f2d27a','#86d1bb']:['#aa95d5','#ce9aaa','#a3b2dd'];
+    ellipse(0,38,26,5,'#3440443b');
+    // shoes and stubby arms
+    ellipse(-14,22,9,7,'#59546a');ellipse(13,22,9,7,'#59546a');
+    ellipse(-20,-2,8,12,colors[u.type]);ellipse(20,-3,8,12,colors[u.type]);
+    const body=colors[u.type];
+    ellipse(0,-8,26,30,u.hitFlash>0?'#fff3de':body);
+    ctx.beginPath();ctx.ellipse(0,-8,26,30,0,0,Math.PI*2);ctx.lineWidth=3;ctx.strokeStyle='#54475b';ctx.stroke();
+    ellipse(-9,1,8,7,'#ffb3a477');ellipse(17,0,7,7,'#ffb3a477');
+    ellipse(4,-15,2.8,5.3,'#383448');ellipse(16,-15,2.8,5.3,'#383448');
+    ctx.beginPath();ctx.arc(10,-5,4,0,Math.PI);ctx.strokeStyle='#674d56';ctx.lineWidth=1.8;ctx.stroke();
+    // head equipment based on era
+    const era=game.era;
+    if(era===0){
+      ctx.beginPath();ctx.arc(0,-28,19,Math.PI,0);ctx.fillStyle=u.side===1?'#bfa876':'#7c7295';ctx.fill();ctx.strokeStyle='#54475b';ctx.lineWidth=2;ctx.stroke();
+      line(-18,-31,17,-31,'#65536a',2);
+    }else if(era===1){
+      ctx.beginPath();ctx.arc(0,-29,20,Math.PI,0);ctx.fillStyle=u.side===1?'#96afbd':'#8b79a6';ctx.fill();
+      roundRect(-23,-32,46,7,3,'#696b80','#4f5267',1);line(1,-46,1,-53,'#9d7f60',4);
+    }else if(era===2){roundRect(-22,-45,45,19,8,u.side===1?'#8e9db4':'#7d729c','#4f5267',2);roundRect(-12,-56,25,18,3,'#777a8c','#484859',2);}
+    else{ellipse(0,-29,23,18,'#d1dcf0');ellipse(0,-29,25,20,'#ffffff55');line(-23,-29,23,-29,'#829bc2',2);}
+    if(u.type===0){
+      // chunky shield
+      roundRect(18,-8,20,35,8,u.side===1?'#8bc2a3':'#bc9ab9','#5a566d',3);
+      line(24,-1,33,-1,'#fff8df',2);
+    }else if(u.type===1){
+      line(15,0,36,-40,'#705a4c',5);
+      roundRect(28,-49,18,19,5,u.side===1?'#d0dae4':'#998da9','#5b5b6b',2);
+    }else{
+      line(16,-6,33,-28,'#765c4d',3);line(15,-7,39,-3,'#765c4d',3);
+      ctx.beginPath();ctx.arc(30,-11,16,-1.1,1.1);ctx.strokeStyle='#65556b';ctx.lineWidth=4;ctx.stroke();
+      line(37,-25,37,3,'#fff3cf',1.5);
+    }
+    if(u.attackFlash>0){ctx.globalAlpha=u.attackFlash*2;ellipse(30,-9,7,7,'#fff8c3');ctx.globalAlpha=1;}
+    ctx.restore();
+    if(u.hp<u.maxHp){roundRect(sx-20,ground-91,40,5,4,'#3a344450');roundRect(sx-20,ground-91,40*u.hp/u.maxHp,5,4,u.side===1?'#7adb9c':'#f38e97');}
+  }
+  function drawShots(){
+    const ground=worldGround();
+    for(const s of game.shots){
+      const x=s.x-camera;if(x<-40||x>viewW+40)continue;
+      ctx.save();ctx.translate(x,s.y+(ground-s.y)*.24*Math.sin(motion*3));ctx.rotate(s.side===1?0:Math.PI);
+      line(-15,0,15,0,s.type===3?'#f3ad60':'#5a4c65',3);
+      ctx.beginPath();ctx.moveTo(16,-5);ctx.lineTo(27,0);ctx.lineTo(16,5);ctx.closePath();ctx.fillStyle=s.type===3?'#ffdb77':'#d8dee4';ctx.fill();ctx.restore();
+    }
+  }
+  function drawParticles(){
+    for(const p of game.particles){
+      const x=p.x-camera;if(x<-30||x>viewW+30)continue;
+      ctx.globalAlpha=clamp(p.life/p.full,0,1);ellipse(x,p.y,p.radius,p.radius,p.color);
+    }ctx.globalAlpha=1;
+  }
+  function draw(){
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,viewW,viewH);
+    if(!game)return;
+    if(state==='playing'&&performance.now()>userCameraUntil){
+      const friendly=game.units.filter(u=>u.side===1&&u.hp>0);
+      const lead=friendly.length?Math.max(...friendly.map(u=>u.x)):145;
+      const target=clamp(lead-viewW*.35,0,Math.max(0,WORLD-viewW));
+      camera+=(target-camera)*.035;
+    }
+    drawBackground();drawBase(63,1);drawBase(WORLD-63,-1);
+    game.units.slice().sort((a,b)=>a.yOffset-b.yOffset).forEach(drawUnit);
+    drawShots();drawParticles();
+    if(state==='paused'){
+      ctx.fillStyle='#27324c33';ctx.fillRect(0,0,viewW,viewH);
+      ctx.fillStyle='#ffffffdd';ctx.font='900 28px sans-serif';ctx.textAlign='center';ctx.fillText('⏸ 胖胖休息中',viewW/2,viewH*.48);
+    }
+  }
+  function frame(time){
+    if(!lastFrame)lastFrame=time;
+    const dt=Math.min((time-lastFrame)/1000,.05);lastFrame=time;frameSeq++;
+    if(state==='playing')motion+=dt;
+    update(dt);draw();
+    if(noteUntil&&time>noteUntil){$('battleNote').classList.remove('visible');noteUntil=0;}
+    requestAnimationFrame(frame);
+  }
+  function closeModal(){
+    if(!modalCanClose)return;
+    $('modalBackdrop').hidden=true;modalType=null;
+    if(state==='paused'){state='playing';$('pauseBtn').textContent='Ⅱ';}
+    updateHUD(true);
+  }
+  function modal({type,emoji,title,text,extra='',actions=[],closable=false}){
+    modalType=type;modalCanClose=closable;
+    $('modalBackdrop').hidden=false;
+    $('modalEmoji').textContent=emoji;$('modalTitle').textContent=title;$('modalText').textContent=text;
+    $('modalExtra').innerHTML=extra;
+    $('modalClose').hidden=!closable;
+    $('modalActions').replaceChildren();
+    for(const action of actions){
+      const b=document.createElement('button');b.className=action.secondary?'secondary-btn':'primary-btn';
+      b.textContent=action.label;b.addEventListener('click',action.onClick);$('modalActions').append(b);
+    }
+  }
+  function tutorial(){
+    state='intro';
+    modal({type:'intro',emoji:'🍙',title:'胖胖战士，集合！',text:'一群圆滚滚的小战士，为了世界上最好吃的饭团，决定展开一场热闹的基地争夺战。',
+      extra:'<div class="guide"><p>🍙 饭团会自动增加，派兵要消耗饭团。</p><p>🛡️ 肉盾保护队友，🪓 近战冲锋，🏹 远程输出。</p><p>📯 冲锋号角可以短暂加强全军。</p><p>🏆 推倒敌方基地，获得金币升级军团，逐步开启新时代。</p><p>💾 进度自动保存在这台设备的浏览器。</p></div>',
+      actions:[{label:'胖胖们！出发！',onClick:()=>{$('modalBackdrop').hidden=true;modalType=null;state='playing';$('pauseBtn').textContent='Ⅱ';hint('🍙 点下面的胖胖卡片派兵！',4);}}]});
+  }
+  function pause(){
+    if(state==='intro'||state==='ended')return;
+    if(modalType)return;
+    if(state==='playing'){state='paused';$('pauseBtn').textContent='▶';hint('');}
+    else{state='playing';$('pauseBtn').textContent='Ⅱ';}
+    updateHUD();
+  }
+  function openGuide(){
+    const wasPlaying=state==='playing';if(wasPlaying)state='paused';
+    modal({type:'guide',emoji:'📜',title:'胖胖作战手册',text:'一场轻松的小规模出兵对推战。方向不用控制，胖胖会自己寻找敌人。',
+      extra:'<div class="guide"><p>🍙 派兵消耗饭团，饭团自动恢复，击败敌人还会掉落奖励。</p><p>🛡️ 肉盾血厚，🪓 冲锋攻击强，🏹 远射可以站在肉盾身后攻击。</p><p>📯 号角激活后 6 秒内，我方全军跑得更快、打得更痛。</p><p>👆 在战场左右滑动可暂时看别处；点「跟随」恢复自动镜头。</p><p>🪙 每场胜利获得金币，去研究所升级伤害、食物生产与营地。</p><p>📱 iPhone 安装：把网站部署到 HTTPS，再用 Safari 打开，点「分享」→「添加到主屏幕」。</p><p>🔐 完全本地运行，不上传账号或存档。</p></div>',
+      actions:[{label:'明白了！',onClick:()=>{ $('modalBackdrop').hidden=true;modalType=null;state=wasPlaying?'playing':(state==='ended'?'ended':'paused');$('pauseBtn').textContent=state==='playing'?'Ⅱ':'▶';updateHUD(true);}}],closable:false});
+  }
+  function shopContent(){
+    return '<div class="shop-header">🪙 当前金币：'+save.coins+'</div><div class="upgrades-list">'+upgradeDefs.map(def=>{
+      const lv=save.upgrades[def.id],price=upgradePrice(def);
+      return `<div class="upgrade-row"><div class="upgrade-icon">${def.icon}</div><div class="upgrade-text"><strong>${def.title} Lv.${lv}</strong><small>${def.desc}</small></div><button data-upgrade="${def.id}" class="upgrade-buy" ${save.coins<price?'disabled':''}>🪙 ${price}</button></div>`;
+    }).join('')+'</div>';
+  }
+  function wireShop(){
+    $('modalExtra').querySelectorAll('[data-upgrade]').forEach(button=>button.addEventListener('click',()=>{
+      const def=upgradeDefs.find(d=>d.id===button.dataset.upgrade);
+      const price=upgradePrice(def);
+      if(save.coins<price)return;
+      save.coins-=price;save.upgrades[def.id]++;
+      persist();updateMeta();beep(650,.09,'triangle');
+      $('modalExtra').innerHTML=shopContent();wireShop();
+      if(game&&state==='paused'){
+        game.income=12+save.upgrades.income*2.5;
+        game.maxFood=350+save.upgrades.income*45;
+      }
+      updateHUD(true);
+    }));
+  }
+  function openShop(){
+    if(state==='intro'||modalType)return;
+    const wasPlaying=state==='playing';if(wasPlaying)state='paused';
+    modal({type:'shop',emoji:'🔧',title:'胖胖研究所',text:'用战斗赚到的金币，把胖胖军团变得更强！',extra:shopContent(),
+      actions:[{label:wasPlaying?'返回战场':'关闭研究所',onClick:()=>{
+        $('modalBackdrop').hidden=true;modalType=null;if(wasPlaying)state='playing';
+        $('pauseBtn').textContent=state==='playing'?'Ⅱ':'▶';updateHUD(true);
+      }}]});wireShop();
+  }
+  function showOutcome(won,reward,newEra){
+    const winText=newEra?'一个崭新的时代解锁了！下一关将进入 '+eras[eraIndex()].name+'。':
+      won?'坏坏营地被胖胖们推倒啦！':'胖胖营地没守住，但大家学到了很多。';
+    modal({type:'outcome',emoji:won?(newEra?'🌟':'🏆'):'🥹',title:won?'胖胖大胜利！':'胖胖们再来一次！',
+      text:winText,extra:`<div class="medal">${won?'✨ 胜利奖赏':'🍀 再接再厉'}　+${reward} 🪙</div>`+shopContent(),
+      actions:[{label:won?'下一关，出发！':'再战一场！',onClick:()=>{
+        $('modalBackdrop').hidden=true;modalType=null;createBattle();state='playing';$('pauseBtn').textContent='Ⅱ';hint('🍙 新的一场！派出你的胖胖军团！',3);
+      }}]});wireShop();
+  }
+  $('unitCards').addEventListener('click',e=>{
+    const btn=e.target.closest('[data-unit]');if(btn)deploy(+btn.dataset.unit);
+  });
+  $('hornBtn').addEventListener('click',horn);
+  $('pauseBtn').addEventListener('click',pause);
+  $('soundBtn').addEventListener('click',()=>{save.sound=!save.sound;persist();updateMeta();beep(640,.10,'sine');});
+  $('howBtn').addEventListener('click',openGuide);
+  $('shopBtn').addEventListener('click',openShop);
+  $('modalClose').addEventListener('click',closeModal);
+  $('cameraBtn').addEventListener('click',()=>{userCameraUntil=0;toast('🎯 已恢复跟随战线');});
+  canvas.addEventListener('pointerdown',e=>{dragging=true;downX=e.clientX;lastPointerX=e.clientX;});
+  canvas.addEventListener('pointermove',e=>{
+    if(!dragging)return;
+    if(Math.abs(e.clientX-downX)>7){camera=clamp(camera+(lastPointerX-e.clientX),0,Math.max(0,WORLD-viewW));userCameraUntil=performance.now()+3500;}
+    lastPointerX=e.clientX;
+  });
+  window.addEventListener('pointerup',()=>dragging=false);
+  window.addEventListener('pointercancel',()=>dragging=false);
+  window.addEventListener('keydown',e=>{
+    if(e.target.closest?.('input,textarea'))return;
+    if(modalType)return;
+    if(['1','2','3'].includes(e.key))deploy(Number(e.key)-1);
+    if(e.key===' '){e.preventDefault();horn();}
+    if(e.key.toLowerCase()==='p')pause();
+  });
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='playing')pause();lastFrame=performance.now();});
+  window.addEventListener('resize',resize);
+  if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+    window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+  }
+  createBattle();resize();tutorial();requestAnimationFrame(frame);
+  // Read-only minimal diagnostic hook for smoke tests. No hidden gameplay unlocks.
+  window.PangpangStatus=()=>({state,stage:game?.stage,playerUnits:game?.units.filter(u=>u.side===1).length,
+    enemyUnits:game?.units.filter(u=>u.side===-1).length,food:Math.floor(game?.food||0),coins:save.coins,era:currentEra().name});
+})();
+</script>
+</body>
+</html>
